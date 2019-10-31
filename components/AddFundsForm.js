@@ -100,11 +100,7 @@ class AddFundsForm extends React.Component {
         when: () => !this.isAddFundsToOrg,
         component: AddFundsSourcePickerWithData,
         options: {
-          collective: this.props.collective,
           host: this.props.host,
-          paymentMethod: get(this, 'props.host.paymentMethods')
-            ? this.props.host.paymentMethods.find(pm => pm.service === 'opencollective')
-            : null,
         },
       },
       {
