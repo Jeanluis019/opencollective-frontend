@@ -43,14 +43,9 @@ class Button extends React.Component {
   }
 
   renderButton() {
+    const { icon, label, children, className, ...rest } = this.props;
     return (
-      <button
-        type={this.props.type}
-        disabled={this.props.disabled}
-        style={this.props.style}
-        className={`Button ${this.props.className}`}
-        onClick={this.onClick}
-      >
+      <button {...rest} className={`Button ${className}`} onClick={this.onClick}>
         <style jsx>
           {`
             .Button {
@@ -173,9 +168,9 @@ class Button extends React.Component {
             }
           `}
         </style>
-        {this.props.icon && <img src={icons[this.props.icon]} />}
-        {this.props.label && <span>{this.props.label}</span>}
-        {this.props.children}
+        {icon && <img src={icons[icon]} />}
+        {label && <span>{label}</span>}
+        {children}
       </button>
     );
   }
