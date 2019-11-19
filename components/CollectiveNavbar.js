@@ -208,9 +208,9 @@ const i18nSection = defineMessages({
 const getCollectiveTypeBlacklistedSections = collectiveType => {
   switch (collectiveType) {
     case CollectiveType.USER:
-      return [Sections.CONTRIBUTORS, Sections.CONTRIBUTE, Sections.UPDATES, Sections.BUDGET];
+      return [Sections.CONTRIBUTORS, Sections.CONTRIBUTE, Sections.UPDATES, Sections.BUDGET, Sections.CONVERSATIONS];
     case CollectiveType.ORGANIZATION:
-      return [Sections.CONTRIBUTE, Sections.UPDATES, Sections.BUDGET];
+      return [Sections.CONTRIBUTE, Sections.UPDATES, Sections.BUDGET, Sections.CONVERSATIONS];
     case CollectiveType.COLLECTIVE:
       return [Sections.CONTRIBUTIONS, Sections.TRANSACTIONS];
     default:

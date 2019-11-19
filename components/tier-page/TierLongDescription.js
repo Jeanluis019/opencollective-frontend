@@ -29,7 +29,7 @@ const TierLongDescription = ({ tier, editMutation, canEdit }) => {
             <HTMLContent>
               <RichTextEditor
                 defaultValue={value}
-                onChange={setValue}
+                onChange={e => setValue(e.target.value)}
                 withStickyToolbar
                 toolbarTop={[60, null, 119]}
                 toolbarOffsetY={-30}

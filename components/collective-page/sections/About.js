@@ -63,7 +63,7 @@ const SectionAbout = ({ collective, canEdit, intl }) => {
                 <HTMLContent>
                   <HTMLEditor
                     defaultValue={collective.longDescription}
-                    onChange={setValue}
+                    onChange={e => setValue(e.target.value)}
                     placeholder={intl.formatMessage(messages.placeholder)}
                     toolbarTop={[60, null, 119]}
                     withStickyToolbar

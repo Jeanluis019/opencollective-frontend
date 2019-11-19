@@ -20,10 +20,10 @@ export const Sections = {
   GOALS: 'goals',
   CONTRIBUTIONS: 'contributions',
   CONTRIBUTE: 'contribute',
-  // CONVERSATIONS: 'conversations',
   UPDATES: 'updates',
   BUDGET: 'budget',
   CONTRIBUTORS: 'contributors',
+  CONVERSATIONS: 'conversations',
   TRANSACTIONS: 'transactions',
   ABOUT: 'about',
 };
