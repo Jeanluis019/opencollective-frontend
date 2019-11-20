@@ -12,6 +12,7 @@ class Comments extends React.Component {
     fetchMore: PropTypes.func,
     editable: PropTypes.bool,
     LoggedInUser: PropTypes.object,
+    totalComments: PropTypes.number,
   };
 
   constructor(props) {
@@ -33,7 +34,7 @@ class Comments extends React.Component {
   }
 
   render() {
-    const { collective, comments, LoggedInUser, editable } = this.props;
+    const { collective, comments, LoggedInUser, editable, totalComments } = this.props;
 
     if (!comments) {
       return <div />;
@@ -95,9 +96,9 @@ class Comments extends React.Component {
               LoggedInUser={LoggedInUser}
             />
           ))}
-          {comments.length >= 10 && comments.length % 10 === 0 && (
+          {totalComments > comments.length && (
             <div className="loadMoreBtn">
-              <Button bsStyle="default" onClick={this.fetchMore}>
+              <Button bsStyle="default" onClick={this.fetchMore} data-cy="LoadMoreButton">
                 {this.state.loading && <FormattedMessage id="loading" defaultMessage="loading" />}
                 {!this.state.loading && <FormattedMessage id="loadMore" defaultMessage="load more" />}
               </Button>

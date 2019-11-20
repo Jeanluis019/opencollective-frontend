@@ -96,27 +96,92 @@ describe('new expense when logged in', () => {
   });
 });
 
-describe('comment expense', () => {
-  beforeEach(() => {
-    cy.login({ redirect: '/testcollective/expenses' });
+describe('Expense Comments', () => {
+  let collective;
+  let user;
+  let expenseUrl;
+
+  before(() => {
+    cy.signup().then(response => (user = response));
   });
 
-  it('submits a comment on an expense', () => {
-    cy.visit('/testcollective/expenses');
-    cy.get('.Expenses .expense:first .description a').click();
-    cy.wait(300);
-    cy.get('.CommentForm', { timeout: 10000 });
-    cy.get('.ql-editor').type('This is a first comment');
-    cy.get('.ql-editor').blur();
-    cy.wait(500);
-    cy.get('.CommentForm .actions .Button.save', { timeout: 5000 }).click();
-    cy.wait(300);
-    cy.get('.Comments .itemsList .comment', { timeout: 5000 }).should('have.length', 1);
-    cy.get('.Comments .itemsList .comment:first .description').contains('This is a first comment');
-    cy.getByDataCy('submit-expense-btn')
-      .first()
-      .click();
-    cy.get('.descriptionField input').should('have.value', '');
-    cy.get('.amountField input').should('have.value', '');
+  before(() => {
+    cy.createHostedCollective({ userEmail: user.email }).then(c => (collective = c));
+  });
+
+  beforeEach(() => {
+    cy.createExpense({
+      userEmail: user.email,
+      user: { paypalEmail: 'paypal@test.com', id: user.id },
+      collective: { id: collective.id },
+    }).then(expense => (expenseUrl = `/${collective.slug}/expenses/${expense.id}`));
+  });
+
+  function SubmitComment(description) {
+    cy.getByDataCy('CommentForm').within(() => {
+      cy.get('.ql-editor')
+        .type(description)
+        .blur();
+      cy.getByDataCy('SaveCommentButton').click();
+    });
+  }
+
+  it('submits and edits a comment', () => {
+    cy.visit(expenseUrl);
+    // Submit comment
+    SubmitComment('This is a first comment');
+
+    const checkCommentWasSaved = description => {
+      cy.get('.Comments .itemsList .comment').should('have.length', 1);
+      cy.get('.Comments .itemsList .comment:first .description').contains(description);
+    };
+
+    // Make sure comment was saved on the frontend cache and the backend.
+    checkCommentWasSaved('This is a first comment');
+    cy.reload();
+    checkCommentWasSaved('This is a first comment');
+
+    // Edit the comment
+    cy.get('.Comments .itemsList .comment:first').within(() => {
+      cy.getByDataCy('ToggleEditComment').click();
+      cy.get('.ql-editor')
+        .clear()
+        .type('Modifying my first comment');
+      cy.getByDataCy('SaveEditionCommentButton').click();
+    });
+
+    // Make sure comment was saved on the frontend cache and the backend.
+    checkCommentWasSaved('Modifying my first comment');
+    cy.reload();
+    checkCommentWasSaved('Modifying my first comment');
+  });
+
+  it('loads more comments', () => {
+    cy.login({ email: user.email, redirect: expenseUrl });
+    const TOTAL_COMMENTS = 25;
+    const COMMENTS_PER_PAGE = 10;
+
+    // Submit a bunch of comments
+    for (let i = 0; i < TOTAL_COMMENTS; i++) {
+      SubmitComment(i);
+    }
+    cy.reload();
+
+    const checkCommentCount = count => cy.get('.Comments .itemsList .comment').should('have.length', count);
+
+    // Check there is the amount of comments per page.
+    checkCommentCount(COMMENTS_PER_PAGE);
+
+    // Load more comments
+    cy.getByDataCy('LoadMoreButton').click();
+
+    // Check there is the double of the amount of comments per page.
+    checkCommentCount(COMMENTS_PER_PAGE * 2);
+
+    // Load more comments
+    cy.getByDataCy('LoadMoreButton').click();
+
+    // Check there is the total amount of comments.
+    checkCommentCount(TOTAL_COMMENTS);
   });
 });

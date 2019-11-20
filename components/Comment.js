@@ -172,7 +172,7 @@ class Comment extends React.Component {
                 <span>
                   {' '}
                   |{' '}
-                  <a className="toggleEditComment" onClick={this.toggleEdit}>
+                  <a className="toggleEditComment" onClick={this.toggleEdit} data-cy="ToggleEditComment">
                     {intl.formatMessage(this.messages[`${this.state.mode === 'edit' ? 'cancelEdit' : 'edit'}`])}
                   </a>
                 </span>
@@ -195,7 +195,12 @@ class Comment extends React.Component {
             <div className="actions">
               {this.state.mode === 'edit' && (
                 <div>
-                  <SmallButton className="primary save" onClick={this.save} disabled={!this.state.modified}>
+                  <SmallButton
+                    className="primary save"
+                    onClick={this.save}
+                    disabled={!this.state.modified}
+                    data-cy="SaveEditionCommentButton"
+                  >
                     <FormattedMessage id="save" defaultMessage="Save" />
                   </SmallButton>
                 </div>
