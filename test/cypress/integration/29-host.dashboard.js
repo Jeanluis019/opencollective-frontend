@@ -81,6 +81,6 @@ describe('host dashboard', () => {
       .contains('button', 'Delete')
       .click({ force: true });
     cy.get('[data-cy="confirmation-modal-continue"]').click({ force: true });
-    cy.get('@currentExpense').should('not.exist');
+    cy.get('[data-cy="errorMessage"]').should('not.exist');
   });
 });
