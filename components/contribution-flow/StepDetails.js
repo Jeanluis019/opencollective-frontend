@@ -176,7 +176,7 @@ const StepDetails = ({
                   dispatchChange({ amount: Math.round(parseFloat(target.value) * 100) });
                 }}
                 containerProps={{ borderRadius: hasOptions ? '0 4px 4px 0' : 3, ml: '-1px' }}
-                prependProps={{ pl: 2, pr: 0, bg: onActive ? 'blue' : 'black', color: 'black.full' }}
+                prependProps={{ pl: 2, pr: 0, bg: onActive ? 'blue' : 'black.800', color: 'black.800' }}
                 px="2px"
               />
             )}

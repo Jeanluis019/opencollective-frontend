@@ -136,7 +136,6 @@ class InputTypeLocation extends React.Component {
           placeholder={this.props.placeholder}
           {...options}
         />
-
         <Location location={this.state.value} showTitle={false} />
       </div>
     );

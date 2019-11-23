@@ -38,7 +38,6 @@ const StyledInput = styled.input`
   box-sizing: border-box;
   outline: none;
 
-
   &:disabled {
     background-color: ${themeGet('colors.black.50')};
     cursor: not-allowed;
