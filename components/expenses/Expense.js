@@ -461,7 +461,11 @@ class Expense extends React.Component {
                       />
                     )}
                     {canPay && (
-                      <StyledButton mr={2} onClick={() => this.setState({ showUnapproveModal: true })}>
+                      <StyledButton
+                        mr={2}
+                        buttonStyle="dark"
+                        onClick={() => this.setState({ showUnapproveModal: true })}
+                      >
                         <FormattedMessage id="expense.unapprove.btn" defaultMessage="Unapprove" />
                       </StyledButton>
                     )}
